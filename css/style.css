@@ -46,7 +46,8 @@ code { background: var(--bg); padding: 1px 6px; border-radius: 6px; font-size: .
 .brand { display: flex; align-items: center; gap: 10px; }
 .brand h1 { font-size: 1.25rem; color: var(--navy); letter-spacing: .3px; }
 .brand small { color: var(--muted); font-weight: 600; }
-.top-cat svg { width: 42px; height: 42px; display: block; }
+.top-cat .mofu { display: block; }
+.mofu { object-fit: contain; display: block; margin: 0 auto; -webkit-user-select: none; user-select: none; }
 .icon-btn {
   border: 0; background: var(--card); width: 40px; height: 40px; border-radius: 14px;
   font-size: 1.2rem; box-shadow: var(--shadow); cursor: pointer;
@@ -117,7 +118,7 @@ textarea { resize: vertical; }
 
 /* ---------- Cat bubble ---------- */
 .bubble-row { display: flex; align-items: center; gap: 10px; margin: 0 0 14px; }
-.home-cat svg { width: 76px; height: 76px; display: block; animation: bob 3s ease-in-out infinite; }
+.home-cat .mofu { animation: bob 3s ease-in-out infinite; }
 @keyframes bob { 50% { transform: translateY(-4px) rotate(-2deg); } }
 .bubble {
   position: relative; flex: 1; background: var(--card); border-radius: 18px; padding: 12px 14px;
@@ -191,14 +192,14 @@ textarea { resize: vertical; }
 
 /* ---------- Ranks ---------- */
 .rank-hero { text-align: center; }
-.rank-hero svg { width: 150px; height: 150px; animation: bob 3s ease-in-out infinite; }
+.rank-hero .mofu { animation: bob 3s ease-in-out infinite; margin-bottom: 6px; }
 .rank-name { font-size: 1.4rem; font-weight: 800; color: var(--navy); }
 .collection { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
 .cat-card { background: var(--bg); border-radius: 16px; padding: 8px 4px; text-align: center; border: 3px solid transparent; cursor: pointer; position: relative; }
-.cat-card svg { width: 76px; height: 76px; display: block; margin: 0 auto; }
+
 .cat-card .cn { font-size: .72rem; font-weight: 800; color: var(--navy); line-height: 1.15; min-height: 2.3em; display: flex; align-items: center; justify-content: center; }
 .cat-card .rar { font-size: .66rem; font-weight: 800; text-transform: uppercase; letter-spacing: .4px; }
-.cat-card.locked svg { filter: brightness(0) opacity(.18); }
+.cat-card.locked .mofu, .locked-art .mofu { filter: brightness(0) opacity(.18); }
 .cat-card.locked .cn { color: var(--muted); }
 .cat-card.current { box-shadow: 0 0 0 3px var(--shark-2) inset; }
 .xp-rules li b { color: var(--shark-2); }
@@ -242,7 +243,8 @@ textarea { resize: vertical; }
 .meal-pick button { border: 0; background: var(--bg); border-radius: 12px; padding: 8px 2px; font-size: .78rem; font-weight: 700; color: var(--navy); cursor: pointer; }
 .meal-pick button.on { background: var(--shark-2); color: #fff; }
 .unlock { text-align: center; }
-.unlock svg { width: 170px; height: 170px; animation: pop .6s cubic-bezier(.2, 1.6, .4, 1); }
+.unlock .mofu { margin: 8px auto; }
+.unlock .pop { animation: pop .6s cubic-bezier(.2, 1.6, .4, 1); }
 @keyframes pop { from { transform: scale(.3) rotate(-20deg); opacity: 0; } to { transform: none; opacity: 1; } }
 .rarity-tag { display: inline-block; padding: 3px 10px; border-radius: 99px; color: #fff; font-weight: 800; font-size: .78rem; letter-spacing: .5px; text-transform: uppercase; margin: 6px 0; }
 

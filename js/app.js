@@ -19,7 +19,9 @@
     custom: [],
     recent: [],
     bestXp: 0,
-    seenUnlocked: 1,
+    seenCats: 1,
+    seenRank: 0,
+    companion: null,
   });
 
   let state = load();
@@ -144,16 +146,21 @@
     const best = state.bestXp;
     let idx = 0;
     RANKS.forEach((r, i) => { if (best >= r.xp) idx = i; });
-    const next = RANKS[idx + 1];
-    return { xp, best, idx, rank: RANKS[idx], next };
+    const unlocked = CATS.filter((c) => best >= c.xp);
+    const nextCat = CATS.find((c) => best < c.xp);
+    const companion = unlocked.find((c) => c.id === state.companion) || unlocked[unlocked.length - 1];
+    return { xp, best, idx, rank: RANKS[idx], unlocked, nextCat, companion };
   }
   function checkUnlocks() {
     const info = rankInfo();
-    const unlocked = info.idx + 1;
-    if (unlocked > state.seenUnlocked) {
-      state.seenUnlocked = unlocked;
+    const n = info.unlocked.length;
+    if (n > state.seenCats) {
+      const newCount = n - state.seenCats;
+      const rankUp = info.idx > state.seenRank ? info.rank.rank : null;
+      state.seenCats = n;
+      state.seenRank = info.idx;
       save();
-      showUnlock(info.rank);
+      showUnlock(info.unlocked[n - 1], newCount, rankUp);
     }
   }
 
@@ -178,7 +185,7 @@
 
   function renderTop() {
     const info = rankInfo();
-    $('topCat').innerHTML = catSVG(info.rank, 42);
+    $('topCat').innerHTML = catImg(info.companion, 44);
     $('topRank').textContent = `Rang ${info.idx + 1} · ${info.rank.rank}`;
   }
 
@@ -246,7 +253,7 @@
 
     // Chat
     const info = rankInfo();
-    $('homeCat').innerHTML = catSVG(info.rank, 76);
+    $('homeCat').innerHTML = catImg(info.companion, 84);
     $('catBubble').textContent = catMessage(k, e, t, d, goal, info);
 
     renderWeekChart();
@@ -261,8 +268,8 @@
     if (t && e > t * 1.1) return `Oups, +${fmt(e - t)} kcal… pas grave, demain on marche un peu plus ! 🐾`;
     if (d.steps >= goal) return `${fmt(d.steps)} pas ! Tu es une vraie machine 🦈💨`;
     if (t && Math.abs(e - t) <= t * 0.1) return 'Pile dans ton objectif, bravo ! +15 XP 🎯';
-    if (info.next) return `Encore ${fmt(info.next.xp - info.best)} XP pour débloquer un nouveau chat 👀`;
-    return info.rank.quote;
+    if (info.nextCat && parseKey(k).getDate() % 2) return `Encore ${fmt(info.nextCat.xp - info.best)} XP pour débloquer un nouveau mofusand 👀`;
+    return info.companion.quote;
   }
 
   function renderWeekChart() {
@@ -647,50 +654,57 @@
   // ---------- Rangs ----------
   function renderRanks() {
     const info = rankInfo();
-    $('rankCat').innerHTML = catSVG(info.rank, 150);
+    const c = info.companion;
+    $('rankCat').innerHTML = catImg(c, 170);
     $('rankName').textContent = `Rang ${info.idx + 1} · ${info.rank.rank}`;
-    $('rankCatName').innerHTML = `${esc(info.rank.cat)} <span class="rarity-tag" style="background:${RARITIES[info.rank.rarity].color}">${RARITIES[info.rank.rarity].label}</span>`;
-    if (info.next) {
-      const pct = ((info.best - info.rank.xp) / (info.next.xp - info.rank.xp)) * 100;
+    $('rankCatName').innerHTML = `${esc(c.name)} <span class="rarity-tag" style="background:${RARITIES[c.rarity].color}">${RARITIES[c.rarity].label}</span>`;
+    const nextRank = RANKS[info.idx + 1];
+    if (nextRank) {
+      const pct = ((info.best - info.rank.xp) / (nextRank.xp - info.rank.xp)) * 100;
       $('xpBar').style.width = Math.min(100, pct) + '%';
-      $('xpText').textContent = `${fmt(info.best)} XP · encore ${fmt(info.next.xp - info.best)} XP pour « ${info.next.rank} »`;
+      $('xpText').textContent = `${fmt(info.best)} XP · encore ${fmt(nextRank.xp - info.best)} XP pour « ${nextRank.rank} »` +
+        (info.nextCat ? ` · prochain mofusand à ${fmt(info.nextCat.xp)} XP` : '');
     } else {
       $('xpBar').style.width = '100%';
       $('xpText').textContent = `${fmt(info.best)} XP · rang maximum atteint ! 👑`;
     }
-    $('collection').innerHTML = RANKS.map((r, i) => {
-      const unlocked = info.best >= r.xp;
-      const rar = RARITIES[r.rarity];
-      return `<div class="cat-card ${unlocked ? '' : 'locked'} ${i === info.idx ? 'current' : ''}" data-cat-idx="${i}" style="border-color:${unlocked ? rar.color : 'transparent'}">
-        ${catSVG(r, 76)}
-        <div class="cn">${unlocked ? esc(r.cat) : '???'}</div>
-        <div class="rar" style="color:${rar.color}">${unlocked ? rar.label : fmt(r.xp) + ' XP'}</div>
+    $('collectionCount').textContent = `${info.unlocked.length} / ${CATS.length}`;
+    $('collection').innerHTML = CATS.map((cat) => {
+      const unlocked = info.best >= cat.xp;
+      const rar = RARITIES[cat.rarity];
+      return `<div class="cat-card ${unlocked ? '' : 'locked'} ${cat.id === c.id ? 'current' : ''}" data-cat-idx="${cat.id}" style="border-color:${unlocked ? rar.color : 'transparent'}">
+        ${catImg(cat, 76)}
+        <div class="cn">${unlocked ? esc(cat.name) : '???'}</div>
+        <div class="rar" style="color:${rar.color}">${unlocked ? rar.label : fmt(cat.xp) + ' XP'}</div>
       </div>`;
     }).join('');
   }
   function showCat(i) {
-    const r = RANKS[i];
-    const unlocked = rankInfo().best >= r.xp;
-    const rar = RARITIES[r.rarity];
+    const cat = CATS[i];
+    const info = rankInfo();
+    const unlocked = info.best >= cat.xp;
+    const rar = RARITIES[cat.rarity];
+    const isComp = info.companion.id === cat.id;
     openSheet(`<div class="unlock">
-      <div class="${unlocked ? '' : 'cat-card locked'}" style="background:none">${catSVG(r, 170)}</div>
-      <h2>${unlocked ? esc(r.cat) : 'Chat mystère'}</h2>
+      <div class="${unlocked ? '' : 'locked-art'}">${catImg(cat, 190)}</div>
+      <h2>${unlocked ? esc(cat.name) : 'Mofusand mystère'}</h2>
       <span class="rarity-tag" style="background:${rar.color}">${rar.label}</span>
-      <p><b>Rang ${i + 1} · ${esc(r.rank)}</b></p>
-      <p class="muted">${unlocked ? '« ' + esc(r.quote) + ' »' : `Se débloque à ${fmt(r.xp)} XP. Continue comme ça !`}</p>
-      <button class="btn primary full" id="catOk">Trop mignon</button>
+      <p class="muted">${unlocked ? '« ' + esc(cat.quote) + ' »' : `Se débloque à ${fmt(cat.xp)} XP (encore ${fmt(cat.xp - info.best)} XP). Continue comme ça !`}</p>
+      ${unlocked && !isComp ? '<button class="btn primary full" id="catPick">⭐ Choisir comme compagnon</button>' : ''}
+      <button class="btn full" id="catOk">${isComp ? 'C\'est mon compagnon 💙' : 'Fermer'}</button>
     </div>`);
     $('catOk').onclick = closeSheet;
+    if ($('catPick')) $('catPick').onclick = () => { state.companion = cat.id; save(); closeSheet(); render(); toast(`💙 ${cat.name} t'accompagne !`); };
   }
-  function showUnlock(r) {
-    const rar = RARITIES[r.rarity];
+  function showUnlock(cat, count, rankUp) {
+    const rar = RARITIES[cat.rarity];
     openSheet(`<div class="unlock">
-      <p class="muted" style="margin:0">🎉 Nouveau rang débloqué !</p>
-      ${catSVG(r, 170)}
-      <h2>${esc(r.cat)}</h2>
+      <p class="muted" style="margin:0">🎉 ${count > 1 ? count + ' nouveaux mofusand débloqués !' : 'Nouveau mofusand débloqué !'}</p>
+      ${catImg(cat, 200, 'pop')}
+      <h2>${esc(cat.name)}</h2>
       <span class="rarity-tag" style="background:${rar.color}">${rar.label}</span>
-      <p><b>Tu es maintenant : ${esc(r.rank)}</b></p>
-      <p class="muted">« ${esc(r.quote)} »</p>
+      ${rankUp ? `<p><b>Nouveau rang : ${esc(rankUp)}</b></p>` : ''}
+      <p class="muted">« ${esc(cat.quote)} »</p>
       <button class="btn primary full" id="catOk">Yeaaah ! 🦈</button>
     </div>`);
     $('catOk').onclick = () => { closeSheet(); render(); };

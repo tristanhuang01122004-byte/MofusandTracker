@@ -8,7 +8,7 @@ Web app pour iPhone, installable sur l'écran d'accueil. Elle marche hors-ligne 
 - ⚖️ **Pesée du matin** avec courbe, variation, IMC et poids objectif
 - 🧍 **Profil** (sexe, âge, taille, poids de départ) → calcul du **BMR** (Mifflin-St Jeor), de la dépense et de l'objectif calorique
 - 📝 **Notes** libres, avec recherche
-- 🐾 **Rangs d'évolution** : de *Plancton* à *Légende des Abysses*. Chaque rang débloque un chat costumé de plus en plus rare (Commun → Rare → Épique → Légendaire → Mythique)
+- 🐾 **Rangs d'évolution** : de *Plancton* à *Légende des Abysses*, avec 40 mofusand à débloquer, de plus en plus rares (Commun → Rare → Épique → Légendaire → Mythique)
 - 💾 Export et import d'une sauvegarde JSON
 
 ---
@@ -56,27 +56,21 @@ On crée un raccourci qui lit tes pas du jour dans Santé et les copie. L'app n'
 **Variante « lien » (si tu utilises l'app dans Safari, sans l'icône) :** à la place des étapes 6 et 7, mets l'action **URL** `https://tristanhuang01122004-byte.github.io/MofusandTracker/?pas=[variable pas]&kcal=[variable kcal]`, puis l'action **Ouvrir les URL**. L'import se fait tout seul à l'ouverture.
 ⚠️ Sur iPhone, l'app de l'écran d'accueil a une mémoire séparée de Safari. Si tu utilises l'icône, reste sur la méthode « Importer ».
 
-## 4. Les rangs et les chats 🐾
+## 4. Les rangs et la collection de mofusand 🐾
 
-| Rang | XP | Chat débloqué | Rareté |
-|---|---|---|---|
-| Plancton | 0 | Minou Tout Doux | Commun |
-| Crevette | 60 | Chat Grenouille | Commun |
-| Poisson-clown | 150 | Chat Ourson | Commun |
-| Méduse | 300 | Chat Requin Bleu | Rare |
-| Tortue de mer | 480 | Chat Abeille | Rare |
-| Dauphin | 700 | Chat Lapin Rose | Rare |
-| Pieuvre | 1 000 | Chat Dino | Épique |
-| Raie manta | 1 350 | Chat Pieuvre | Épique |
-| Requin bleu | 1 800 | Chat Requin de Nuit | Épique |
-| Grand requin blanc | 2 400 | Chat Licorne | Légendaire |
-| Orque | 3 100 | Chat Dragon | Légendaire |
-| Mégalodon | 4 000 | Chat Requin Doré | Mythique |
-| Légende des Abysses | 5 000 | Roi Requin Cosmique | Mythique |
+13 rangs d'évolution (Plancton → Crevette → Poisson-clown → Méduse → Tortue de mer → Dauphin → Pieuvre → Raie manta → Requin bleu → Grand requin blanc → Orque → Mégalodon → Légende des Abysses) et **40 mofusand à collectionner**, de 0 à 5 000 XP :
+
+- **Commun** (10) : avocat, canapé chips, grenouille, thé vert, pain de mie, tournesol, chou chinois, pomme, sucette, couverture rose
+- **Rare** (10) : chou à la crème, fraise, cerises, ananas, pastèque, bubble tea, couette bleue, lapin, abeille, canard
+- **Épique** (10) : parfait matcha, tortue, pingouin, pieuvre, dino, sapin, fraise géante, capuche bleue, sushi crevette, super-héros
+- **Légendaire** (7) : intello, frappé, requin-baleine, requin & phoque, requin sieste, poisson-lune, chef pâtissier
+- **Mythique** (3) : requin roulé, requin anneau, requin légendaire 🦈
+
+Touche un mofusand débloqué pour en faire ton **compagnon** (il apparaît en haut de l'écran et sur l'accueil).
 
 **Gagner de l'XP (par jour) :** repas noté +10 · 2 repas ou plus +5 · à ±10 % de l'objectif +15 · objectif de pas +20 (+10 à 1,5×) · pesée +10 · note +3 · série de 7 jours +10/jour.
-Un chat débloqué le reste pour toujours.
+Un mofusand débloqué le reste pour toujours.
 
 ---
 
-Les calories sont des moyennes indicatives (tables Ciqual et étiquettes des enseignes). Les chats sont des dessins originaux faits pour l'app, dans l'esprit des chats costumés mofusand.
+Les calories sont des moyennes indicatives (tables Ciqual et étiquettes des enseignes). Illustrations mofusand © juno, utilisées pour un usage personnel : fan app non officielle et non commerciale.

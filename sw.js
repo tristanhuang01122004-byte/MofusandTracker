@@ -1,5 +1,5 @@
 // Cache hors-ligne : sert la version en cache, puis la met à jour en arrière-plan.
-const CACHE = 'mofutrack-v1';
+const CACHE = 'mofutrack-v2';
 const ASSETS = ['./', 'index.html', 'css/style.css', 'js/app.js', 'js/foods.js', 'js/cats.js', 'manifest.json',
   'icons/icon-192.png', 'icons/icon-512.png', 'icons/apple-touch-icon.png'];
 
