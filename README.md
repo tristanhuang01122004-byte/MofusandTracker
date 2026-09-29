@@ -16,7 +16,7 @@ Web app pour iPhone, installable sur l'écran d'accueil. Elle marche hors-ligne 
 ## 1. Mettre l'app en ligne (GitHub Pages, une seule fois)
 
 1. Sur GitHub, ouvre le dépôt **MofusandTracker** → **Settings** → **Pages**.
-2. Dans *Build and deployment* : **Source = Deploy from a branch**, puis choisis la branche `claude/calorie-step-tracker-app-ov3748` (ou `main` si tu l'as fusionnée) et le dossier **/ (root)** → **Save**.
+2. Dans *Build and deployment* : **Source = Deploy from a branch**, branche **`main`**, dossier **/ (root)** → **Save**. (Le workflow `.github/workflows/pages.yml` republie aussi l'app à chaque modification.)
 3. Attends 1 à 2 minutes. L'adresse de l'app sera :
    **https://tristanhuang01122004-byte.github.io/MofusandTracker/**
 
