@@ -1,0 +1,297 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>MofuTrack</title>
+  <meta name="theme-color" content="#cfe6f7">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="MofuTrack">
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+  <link rel="icon" type="image/png" href="icons/icon-192.png">
+  <link rel="manifest" href="manifest.json">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <span id="topCat" class="top-cat"></span>
+      <div>
+        <h1>MofuTrack</h1>
+        <small id="topRank"></small>
+      </div>
+    </div>
+    <button class="icon-btn" id="btnProfile" aria-label="Profil et réglages">⚙️</button>
+  </header>
+
+  <main>
+    <!-- ================= ACCUEIL ================= -->
+    <section id="view-home" class="view active">
+      <div class="date-nav">
+        <button class="icon-btn" id="prevDay" aria-label="Jour précédent">‹</button>
+        <button id="dateLabel" class="date-label"></button>
+        <button class="icon-btn" id="nextDay" aria-label="Jour suivant">›</button>
+      </div>
+
+      <div class="card ring-card">
+        <div class="ring-wrap">
+          <svg viewBox="0 0 120 120" class="ring">
+            <circle cx="60" cy="60" r="52" class="ring-bg"/>
+            <circle cx="60" cy="60" r="52" class="ring-fg" id="ringFg"/>
+          </svg>
+          <div class="ring-center">
+            <div class="big" id="kcalEaten">0</div>
+            <div class="muted">kcal mangées</div>
+          </div>
+        </div>
+        <div class="ring-stats">
+          <div><span class="muted">Objectif</span><strong id="kcalTarget">—</strong></div>
+          <div><span class="muted">Reste</span><strong id="kcalLeft">—</strong></div>
+          <div><span class="muted">BMR</span><strong id="kcalBmr">—</strong></div>
+        </div>
+        <p class="hint" id="profileHint" hidden>👉 Remplis ton profil (⚙️) pour calculer ton BMR et ton objectif.</p>
+      </div>
+
+      <div class="bubble-row">
+        <div id="homeCat" class="home-cat"></div>
+        <div class="bubble" id="catBubble"></div>
+      </div>
+
+      <div class="card">
+        <div class="card-head">
+          <h2>👣 Pas</h2>
+          <button class="link" id="openGuide">Comment importer ?</button>
+        </div>
+        <div class="steps-row">
+          <div class="big" id="stepsVal">0</div>
+          <div class="muted">/ <span id="stepsGoal">8000</span> pas</div>
+        </div>
+        <div class="bar"><div class="bar-fill" id="stepsBar"></div></div>
+        <p class="muted small" id="stepsKcal"></p>
+        <div class="btn-row">
+          <button class="btn primary" id="btnPasteSteps">📋 Importer (raccourci)</button>
+          <button class="btn" id="btnManualSteps">✏️ Saisir</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-head">
+          <h2>⚖️ Pesée du jour</h2>
+          <span class="muted small" id="weightDelta"></span>
+        </div>
+        <div class="inline-form">
+          <input type="number" inputmode="decimal" step="0.1" id="homeWeight" placeholder="ex : 72.4">
+          <span class="unit">kg</span>
+          <button class="btn primary" id="btnHomeWeight">Enregistrer</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-head">
+          <h2>🍽️ Journal</h2>
+          <button class="btn small primary" data-goto="food">+ Ajouter</button>
+        </div>
+        <div id="mealLog"></div>
+      </div>
+
+      <div class="card">
+        <h2>📊 7 derniers jours</h2>
+        <div id="weekChart"></div>
+      </div>
+    </section>
+
+    <!-- ================= MANGER ================= -->
+    <section id="view-food" class="view">
+      <div class="search-bar">
+        <input type="search" id="foodSearch" placeholder="🔍 Rechercher : pho, big mac, riz…" autocomplete="off">
+      </div>
+      <div class="chips" id="catChips"></div>
+      <div class="btn-row wrap">
+        <button class="btn small" id="btnQuickKcal">⚡ Ajout rapide kcal</button>
+        <button class="btn small" id="btnCustomFood">⭐ Créer un aliment</button>
+      </div>
+      <p class="muted small" id="foodDayInfo"></p>
+      <ul class="food-list" id="foodResults"></ul>
+    </section>
+
+    <!-- ================= POIDS ================= -->
+    <section id="view-weight" class="view">
+      <div class="card">
+        <h2>⚖️ Ma pesée</h2>
+        <div class="inline-form">
+          <input type="date" id="wDate">
+        </div>
+        <div class="inline-form">
+          <input type="number" inputmode="decimal" step="0.1" id="wValue" placeholder="Poids du matin">
+          <span class="unit">kg</span>
+          <button class="btn primary" id="btnSaveWeight">Enregistrer</button>
+        </div>
+      </div>
+      <div class="card">
+        <div class="stats-grid" id="weightStats"></div>
+      </div>
+      <div class="card">
+        <div class="card-head">
+          <h2>📉 Évolution</h2>
+          <div class="seg" id="wRange">
+            <button data-r="30" class="on">30 j</button><button data-r="90">90 j</button><button data-r="0">Tout</button>
+          </div>
+        </div>
+        <div id="weightChart"></div>
+      </div>
+      <div class="card">
+        <h2>🗓️ Historique</h2>
+        <ul class="plain-list" id="weightList"></ul>
+      </div>
+    </section>
+
+    <!-- ================= NOTES ================= -->
+    <section id="view-notes" class="view">
+      <div class="card">
+        <h2>📝 Nouvelle note</h2>
+        <textarea id="noteText" rows="4" placeholder="Écris ce que tu veux : ressenti, repas, idée de recette, motivation…"></textarea>
+        <div class="btn-row">
+          <button class="btn primary" id="btnSaveNote">Enregistrer</button>
+          <button class="btn" id="btnCancelNote" hidden>Annuler</button>
+        </div>
+      </div>
+      <div class="search-bar">
+        <input type="search" id="noteSearch" placeholder="🔍 Chercher dans mes notes">
+      </div>
+      <ul class="notes" id="notesList"></ul>
+    </section>
+
+    <!-- ================= RANGS ================= -->
+    <section id="view-ranks" class="view">
+      <div class="card rank-hero">
+        <div id="rankCat"></div>
+        <div class="rank-name" id="rankName"></div>
+        <div class="muted" id="rankCatName"></div>
+        <div class="bar big-bar"><div class="bar-fill" id="xpBar"></div></div>
+        <div class="muted small" id="xpText"></div>
+      </div>
+      <div class="card">
+        <h2>🐾 Ma collection</h2>
+        <div class="collection" id="collection"></div>
+      </div>
+      <div class="card">
+        <h2>✨ Gagner de l'XP</h2>
+        <ul class="plain-list xp-rules">
+          <li>🍽️ Noter au moins un aliment dans la journée <b>+10</b></li>
+          <li>🍱 Noter 2 repas différents ou plus <b>+5</b></li>
+          <li>🎯 Rester à ±10 % de ton objectif calorique <b>+15</b></li>
+          <li>👣 Atteindre ton objectif de pas <b>+20</b></li>
+          <li>🚀 Faire 1,5× ton objectif de pas <b>+10</b></li>
+          <li>⚖️ Te peser le matin <b>+10</b></li>
+          <li>📝 Écrire une note <b>+3</b></li>
+          <li>🔥 Série : 7 jours d'affilée avec repas notés <b>+10 / jour</b></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ================= PROFIL ================= -->
+    <section id="view-profile" class="view">
+      <div class="card">
+        <h2>🧍 Mon profil</h2>
+        <div class="form-grid">
+          <label>Sexe
+            <select id="pSex"><option value="h">Homme</option><option value="f">Femme</option></select>
+          </label>
+          <label>Âge
+            <input type="number" inputmode="numeric" id="pAge" placeholder="ans">
+          </label>
+          <label>Taille (cm)
+            <input type="number" inputmode="numeric" id="pHeight" placeholder="ex : 175">
+          </label>
+          <label>Poids de départ (kg)
+            <input type="number" inputmode="decimal" step="0.1" id="pWeight" placeholder="ex : 75">
+          </label>
+          <label>Poids objectif (kg)
+            <input type="number" inputmode="decimal" step="0.1" id="pTarget" placeholder="optionnel">
+          </label>
+          <label>Objectif de pas / jour
+            <input type="number" inputmode="numeric" id="pSteps" placeholder="8000">
+          </label>
+          <label class="full">Activité (hors pas comptés)
+            <select id="pActivity">
+              <option value="1.2">Sédentaire (bureau, peu de sport)</option>
+              <option value="1.375">Légère (sport 1-3×/sem)</option>
+              <option value="1.55">Modérée (sport 3-5×/sem)</option>
+              <option value="1.725">Intense (sport 6-7×/sem)</option>
+            </select>
+          </label>
+          <label class="full">Objectif
+            <select id="pGoal">
+              <option value="-750">Perdre vite (~0,75 kg/sem)</option>
+              <option value="-500">Perdre (~0,5 kg/sem)</option>
+              <option value="-250">Perdre doucement (~0,25 kg/sem)</option>
+              <option value="0">Maintenir</option>
+              <option value="250">Prendre doucement</option>
+              <option value="500">Prendre (~0,5 kg/sem)</option>
+            </select>
+          </label>
+          <label class="full check">
+            <input type="checkbox" id="pAddSteps"> Ajouter les calories brûlées par mes pas à mon budget du jour
+          </label>
+        </div>
+        <button class="btn primary full" id="btnSaveProfile">Enregistrer</button>
+      </div>
+      <div class="card" id="bmrCard"></div>
+
+      <div class="card" id="guide">
+        <h2>📲 Importer mes pas avec Raccourcis</h2>
+        <ol class="guide">
+          <li>Ouvre l'app <b>Raccourcis</b> (Shortcuts) → onglet <b>Raccourcis</b> → touche <b>+</b> en haut à droite. Nomme-le <b>MofuPas</b>.</li>
+          <li>Touche <b>Ajouter une action</b>, cherche <b>« Rechercher des échantillons de santé »</b> et ajoute-la.</li>
+          <li>Règle-la ainsi : <b>Type</b> = <i>Nombre de pas</i>, filtre <b>Date de début</b> = <i>est aujourd'hui</i>. Touche <b>Afficher plus</b> et mets <b>Regrouper par</b> = <i>Jour</i> et <b>Unité</b> = <i>pas</i> (le total du jour, sans doublon iPhone/Watch).</li>
+          <li><i>(Optionnel)</i> Ajoute une 2ᵉ action <b>« Rechercher des échantillons de santé »</b> avec <b>Type</b> = <i>Énergie active</i>, même filtre, <b>Regrouper par</b> = <i>Jour</i>, <b>Unité</b> = <i>kcal</i>.</li>
+          <li>Ajoute l'action <b>« Texte »</b> et écris : <code>pas=</code> puis touche <b>Variable</b> → <i>Échantillons de santé</i> (le 1ᵉʳ). Si tu as fait l'étape 4, ajoute <code>;kcal=</code> puis la variable du 2ᵉ <i>Échantillons de santé</i>.<br><span class="muted small">Exemple de résultat : <code>pas=10432;kcal=385</code></span></li>
+          <li>Ajoute l'action <b>« Copier dans le presse-papiers »</b> (elle prend le Texte automatiquement).</li>
+          <li><i>(Optionnel)</i> Ajoute <b>« Afficher une notification »</b> : <i>Pas copiés, ouvre MofuTrack 🦈</i>.</li>
+          <li>Touche <b>▶︎</b> pour tester. La 1ʳᵉ fois, iOS te demande l'accès à Santé → <b>Autoriser</b>.</li>
+          <li>Ouvre <b>MofuTrack</b> → accueil → <b>📋 Importer (raccourci)</b> → touche <b>Coller</b> quand iOS le propose. C'est fait !</li>
+        </ol>
+        <h3>⚡ Encore plus rapide</h3>
+        <ul class="guide">
+          <li><b>Widget</b> : ajoute le widget Raccourcis sur ton écran d'accueil et mets <i>MofuPas</i> à côté de l'icône MofuTrack.</li>
+          <li><b>Siri</b> : dis « Dis Siri, MofuPas ».</li>
+          <li><b>Toucher le dos</b> : Réglages → Accessibilité → Toucher → Toucher le dos → Toucher deux fois → <i>MofuPas</i>.</li>
+          <li><b>Automatique</b> : Raccourcis → onglet <b>Automatisation</b> → <b>+</b> → <i>Heure de la journée</i> (ex. 21:30) → <i>Exécuter immédiatement</i> → choisis <i>MofuPas</i>. Tes pas seront copiés chaque soir, il te restera à toucher « Importer ».</li>
+        </ul>
+        <h3>🧭 Variante « lien » (si tu utilises l'app dans Safari)</h3>
+        <p class="small">Remplace les étapes 6-7 par l'action <b>« URL »</b> contenant <code id="urlExample"></code> (en insérant tes variables) puis l'action <b>« Ouvrir les URL »</b>. Les pas s'importent tout seuls à l'ouverture. ⚠️ Sur iPhone, l'app ajoutée à l'écran d'accueil a une mémoire séparée de Safari : cette variante n'écrit que dans la version Safari. Avec l'icône d'écran d'accueil, utilise le bouton « Importer ».</p>
+      </div>
+
+      <div class="card">
+        <h2>💾 Sauvegarde</h2>
+        <p class="small muted">Tes données restent sur ton téléphone. Exporte-les de temps en temps (par exemple dans Fichiers ou iCloud Drive).</p>
+        <div class="btn-row wrap">
+          <button class="btn" id="btnExport">⬇️ Exporter</button>
+          <label class="btn">⬆️ Importer<input type="file" id="fileImport" accept="application/json" hidden></label>
+          <button class="btn danger" id="btnReset">🗑️ Tout effacer</button>
+        </div>
+      </div>
+      <p class="muted small center">Valeurs caloriques indicatives. Chats dessinés pour l'app, inspirés de l'esprit mofusand.</p>
+    </section>
+  </main>
+
+  <nav class="tabbar">
+    <button data-goto="home" class="on"><span>🏠</span>Accueil</button>
+    <button data-goto="food"><span>🍜</span>Manger</button>
+    <button data-goto="weight"><span>⚖️</span>Poids</button>
+    <button data-goto="notes"><span>📝</span>Notes</button>
+    <button data-goto="ranks"><span>🦈</span>Rangs</button>
+  </nav>
+
+  <div class="sheet-backdrop" id="sheetBackdrop" hidden>
+    <div class="sheet" id="sheet" role="dialog" aria-modal="true"></div>
+  </div>
+  <div class="toast" id="toast" hidden></div>
+
+  <script src="js/foods.js"></script>
+  <script src="js/cats.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
