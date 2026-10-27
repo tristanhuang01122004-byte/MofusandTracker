@@ -1,14 +1,15 @@
-# 🦈 MofuTrack — calories, pas & poids (thème bleu requin)
+# 🦈 MofuTrack — calories, poids & pas, semaine par semaine
 
 Web app pour iPhone, installable sur l'écran d'accueil. Elle marche hors-ligne et **toutes les données restent sur ton téléphone**.
 
-- 🔥 **Calories du jour en un coup d'œil** : anneau « mangées / objectif / reste » et graphique des 7 derniers jours
-- 🔍 **Barre de recherche** dans plus de 350 aliments : fast-food (McDo, KFC, BK, kebab, tacos…), pizzas, pho, ramen, bo bun, sushi, riz, viandes, chorizo, légumes, fruits, céréales, boissons, sauces… On peut compter en portions ou en grammes, créer ses propres aliments, ou entrer des kcal directement
-- 👣 **Pas + énergie active** importés depuis l'app Santé avec un Raccourci (tuto plus bas)
-- ⚖️ **Pesée du matin** avec courbe, variation, IMC et poids objectif
-- 🧍 **Profil** (sexe, âge, taille, poids de départ) → calcul du **BMR** (Mifflin-St Jeor), de la dépense et de l'objectif calorique
+- 🏠 **Accueil dans l'ordre** : calories du jour → objectif de calories **de la semaine** (que tu fixes toi-même) avec ce qu'il reste et le budget par jour restant → pesée du jour et poids → courbe du poids de la semaine → calories de la semaine → pas du jour (saisie) et pas de la semaine
+- 📈 **Onglet Graphes** : poids, calories et pas superposés (3 couleurs), semaine par semaine ou sur 4 semaines, avec résumé et tableau jour par jour
+- 🍚 **Onglet Manger** : riz, poulet et meal prep en premier ; tout le reste (fast-food, pizza, pho, ramen, asiatique, supermarché… 400 aliments) apparaît quand tu tapes dans la recherche
+- 🤖 **IA** : écris « un bol de riz, 150 g de poulet et un coca » → calories détaillées, modifiables, puis ajoutées au journal. Hors ligne avec la base d'aliments ; avec Claude si tu mets ta clé API Anthropic dans ⚙️
+- 🧍 **Profil** : BMR (Mifflin-St Jeor) et dépense estimée, pour t'aider à choisir ton objectif de la semaine
+- 🎨 **Couleur qui change chaque semaine** (Sakura, Matcha, Lavande, Pêche, Citron, Menthe, Corail), ou une couleur fixe au choix
 - 📝 **Notes** libres, avec recherche
-- 🐾 **Rangs d'évolution** : de *Plancton* à *Légende des Abysses*, avec 40 mofusand à débloquer, de plus en plus rares (Commun → Rare → Épique → Légendaire → Mythique)
+- 🐾 **Rangs d'évolution** : de *Plancton* à *Légende des Abysses*, avec 40 mofusand à débloquer, de plus en plus rares (Commun → Rare → Épique → Légendaire → Mythique), une échelle des rangs, le prochain mofusand à débloquer et ta série de jours
 - 💾 Export et import d'une sauvegarde JSON
 
 ---
@@ -28,7 +29,9 @@ Web app pour iPhone, installable sur l'écran d'accueil. Elle marche hors-ligne 
 2. Touche le bouton **Partager** (carré avec une flèche) → **Sur l'écran d'accueil** → **Ajouter**.
 3. Ouvre **MofuTrack** depuis son icône de requin 🦈, puis ⚙️ → remplis ton profil.
 
-## 3. Importer ses pas avec Raccourcis : étape par étape
+## 3. (Optionnel) Importer ses pas avec Raccourcis
+
+Tu peux simplement taper tes pas dans la carte « 👣 Mes pas » de l'accueil. Pour les importer depuis Santé :
 
 On crée un raccourci qui lit tes pas du jour dans Santé et les copie. L'app n'a ensuite qu'à les coller.
 
@@ -45,7 +48,7 @@ On crée un raccourci qui lit tes pas du jour dans Santé et les copie. L'app n'
 6. Ajoute l'action **« Copier dans le presse-papiers »**.
 7. *(Optionnel)* Ajoute **« Afficher une notification »** avec le texte « Pas copiés, ouvre MofuTrack 🦈 ».
 8. Touche **▶︎** pour tester. La 1ʳᵉ fois, autorise l'accès à **Santé**.
-9. Ouvre **MofuTrack** → **📋 Importer (raccourci)** → touche **Coller** quand iOS le demande. ✅
+9. Ouvre **MofuTrack** → carte « 👣 Mes pas » → **📋 Importer** → touche **Coller** quand iOS le demande. ✅
 
 **Pour aller plus vite :**
 - **Widget** Raccourcis sur l'écran d'accueil, à côté de l'icône MofuTrack

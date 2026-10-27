@@ -1,6 +1,7 @@
 // Base d'aliments : [nom, catégorie, portion, grammes (ou ml), kcal pour la portion]
 // Valeurs moyennes indicatives (tables Ciqual / étiquettes des enseignes), arrondies.
 const FOOD_CATEGORIES = {
+  mealprep: { label: 'Meal prep', emoji: '🍱' },
   fastfood: { label: 'Fast-food', emoji: '🍔' },
   pizza: { label: 'Pizza', emoji: '🍕' },
   asie: { label: 'Asiatique', emoji: '🥢' },
@@ -21,6 +22,20 @@ const FOOD_CATEGORIES = {
 };
 
 const FOODS = [
+  // ---------- Meal prep riz & poulet ----------
+  ['Meal prep riz + poulet', 'mealprep', '1 boîte (250 g riz cuit + 150 g poulet)', 400, 575],
+  ['Meal prep riz + poulet + brocoli', 'mealprep', '1 boîte (+100 g brocoli)', 500, 610],
+  ['Meal prep riz + poulet + légumes sautés', 'mealprep', '1 boîte', 500, 640],
+  ['Meal prep riz + poulet teriyaki', 'mealprep', '1 boîte', 420, 680],
+  ['Meal prep riz + poulet curry', 'mealprep', '1 boîte', 450, 700],
+  ['Blanc de poulet cru', 'mealprep', '100 g (pesé cru)', 100, 110],
+  ['Blanc de poulet grillé / cuit', 'mealprep', '100 g', 100, 165],
+  ['Haut de cuisse de poulet sans peau cuit', 'mealprep', '100 g', 100, 200],
+  ['Poulet émincé à la poêle (avec huile)', 'mealprep', '100 g', 100, 190],
+  ['Riz blanc / jasmin cru', 'mealprep', '100 g (pesé cru)', 100, 350],
+  ['Riz basmati cru', 'mealprep', '100 g (pesé cru)', 100, 350],
+  ['Riz blanc / jasmin cuit', 'mealprep', '1 bol', 180, 234],
+  ['Riz cuit (100 g)', 'mealprep', '100 g', 100, 130],
   // ---------- Fast-food ----------
   ['Big Mac', 'fastfood', '1 burger', 215, 503],
   ['Cheeseburger', 'fastfood', '1 burger', 118, 301],
